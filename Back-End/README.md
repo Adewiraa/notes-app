@@ -1,115 +1,66 @@
-# Notes Apps - Back-End Service
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Layanan Back-End API untuk aplikasi **Notes Apps** yang dikembangkan menggunakan **Laravel 10**, terhubung dengan database MySQL, terotentikasi menggunakan JSON Web Token (JWT), serta dilengkapi dengan **Kong API Gateway** sebagai *entrypoint proxy* yang aman, andal, dan berkinerja tinggi.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
----
+## About Laravel
 
-## 🌟 Fitur Unggulan (Core Features)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-Layanan backend ini mengimplementasikan fitur lengkap sesuai standar PRD:
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-### 1. 🔑 Autentikasi JWT & Keamanan Tingkat Tinggi
-*   **JSON Web Token (JWT)**: Otentikasi stateless menggunakan `tymon/jwt-auth`.
-*   **Role-Based Access Control (RBAC)**: Pengelompokan peran terstruktur (Super Admin, Admin, dan User).
-*   **Scope Isolation**: Pembatasan ketat di level database sehingga data catatan antar-departemen dan pengguna terisolasi dengan aman.
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-### 2. 📝 Manajemen Catatan Dinamis (Keep-Style Notes)
-*   **Tipe Catatan**: Mendukung catatan Tipe `text`, `checklist` (todo-list), maupun `mixed`.
-*   **Siklus Hidup**: Mendukung Pin/Unpin (prioritas), Archive (arsip), Soft Delete (Trash), dan Restore.
-*   **Master Warna**: Pewarnaan catatan dinamis menggunakan palet warna terstandarisasi.
+## Learning Laravel
 
-### 3. 🏷️ Kategori & Labelisasi
-*   **Label Personal**: Dibuat oleh pengguna biasa untuk mengorganisir catatannya sendiri.
-*   **Label Global**: Dibuat oleh Admin/Super Admin untuk konsistensi kategori di seluruh organisasi.
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-### 4. ⏱️ Pengingat Cerdas (Timezone-Aware Reminders)
-*   **Reminders**: Penyetelan tenggat waktu pengingat yang terintegrasi dengan timezone.
-*   **Automated Dispatcher**: Pemicu notifikasi in-app otomatis saat jatuh tempo menggunakan background worker Laravel Scheduler.
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-### 5. 🤝 Kolaborasi & Berbagi Fleksibel
-*   **Granular Sharing**: Berbagi catatan ke pengguna lain, peran (Role), atau divisi (Department) tertentu.
-*   **Tingkat Hak Akses**: Izin akses khusus sebagai `viewer`, `editor`, atau `commenter`.
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-### 6. 🛡️ Audit Trail Otomatis (DIPA Standard)
-*   **Audit Logs**: Setiap aksi manipulasi data penting (pembuatan, perubahan, penghapusan, sharing) direkam secara transparan pada tabel `note_audit_logs`.
-*   **Detail Metadata**: Menyimpan status data lama & baru (`old_values`, `new_values`), alamat IP aktor, serta User Agent browser/sistem.
+## Laravel Sponsors
 
-### 7. 🚀 Kong API Gateway Integration
-*   **Kong Gateway**: Mode DB-less di port `8000`.
-*   **Plugin CORS**: Mengizinkan frontend Next.js melakukan request secara aman.
-*   **Plugin Rate-Limiting**: Membatasi serangan brute-force (Maksimal 5 request per detik per IP).
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
----
+### Premium Partners
 
-## 📡 Panduan REST API Endpoints (v1)
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[WebReinvent](https://webreinvent.com/)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Jump24](https://jump24.co.uk)**
+- **[Redberry](https://redberry.international/laravel/)**
+- **[Active Logic](https://activelogic.com)**
+- **[byte5](https://byte5.de)**
+- **[OP.GG](https://op.gg)**
 
-Semua endpoint ber-prefix `/api/v1/` dan dilindungi oleh otentikasi Bearer Token (JWT).
+## Contributing
 
-### 🔐 Autentikasi (`/api/v1/auth`)
-*   `POST /auth/register` : Pendaftaran user baru.
-*   `POST /auth/login` : Autentikasi user & pengambilan token JWT.
-*   `GET /auth/me` : Informasi profil pengguna terlogin.
-*   `POST /auth/refresh` : Refresh masa aktif token.
-*   `POST /auth/logout` : Menghapus session token JWT.
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-### 📓 Manajemen Catatan (`/api/v1/notes`)
-*   `GET /notes` : Mendapatkan list catatan terfilter & paginated.
-*   `POST /notes` : Membuat catatan baru (Tipe teks/checklist).
-*   `GET /notes/{uuid}` : Detail catatan lengkap dengan lampiran dan audit trail.
-*   `PATCH /notes/{uuid}` : Memperbarui judul, konten, warna, atau label.
-*   `DELETE /notes/{uuid}` : Memindahkan catatan ke Trash (Soft delete).
-*   `POST /notes/{uuid}/restore` : Memulihkan catatan dari Trash.
-*   `DELETE /notes/{uuid}/force` : Menghapus catatan secara permanen (Owner/Admin).
-*   `POST /notes/{uuid}/pin` : Toggle pin/unpin catatan.
-*   `POST /notes/{uuid}/archive` : Toggle arsip catatan.
-*   `GET /notes-summary` : Statistik ringkasan data catatan untuk widget Dashboard.
+## Code of Conduct
 
-### 📎 Lampiran Dokumen (`/api/v1/attachments`)
-*   `POST /notes/{uuid}/attachments` : Mengunggah lampiran gambar/PDF/Docx (Maks 5MB).
-*   `GET /attachments/{id}/download` : Mengunduh lampiran secara aman (divalidasi hak aksesnya).
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-### 🏷️ Pengelolaan Kategori (`/api/v1/labels`)
-*   `GET /labels` : List label aktif (Personal & Global).
-*   `POST /labels` : Membuat label baru.
-*   `PATCH /labels/{id}` : Mengubah nama atau warna label.
-*   `DELETE /labels/{id}` : Menghapus label.
+## Security Vulnerabilities
 
-### ⏱️ Pengingat & Kolaborator
-*   `POST /notes/{uuid}/reminders` : Menyimpan reminder baru.
-*   `POST /reminders/{id}/complete` : Menandai pengingat telah selesai/dibaca.
-*   `POST /notes/{uuid}/collaborators` : Membagikan catatan ke user/divisi lain.
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
----
+## License
 
-## 🛠️ Cara Menjalankan Layanan Backend
-
-### 1. Inisialisasi & Install Dependensi
-```bash
-composer install
-npm install && npm run build
-```
-
-### 2. Jalankan Database Migration & Seeders
-Pastikan Anda sudah membuat database bernama `notesapp` di MySQL lokal (Laragon/XAMPP), lalu eksekusi:
-```bash
-php artisan migrate --seed
-```
-
-### 3. Jalankan Server Utama (Laravel)
-```bash
-php artisan serve --port=8001
-```
-
-### 4. Aktifkan Background Scheduler (Untuk Reminder & Housekeeping)
-```bash
-php artisan schedule:work
-```
-
-### 5. Jalankan Kong Gateway (Docker)
-```bash
-docker-compose up -d
-```
-
-### 6. Akses Halaman Dokumentasi Interaktif (Swagger UI)
-Buka browser Anda dan akses:
-👉 **`http://localhost:8001/api/documentation`**
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

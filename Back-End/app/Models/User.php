@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -9,65 +10,65 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
+    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role',
-        'department_id',
-        'is_active',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
+     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
-        'is_active'         => 'boolean',
-    ];
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
-    // JWT
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims(): array
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     */
+    public function getJWTCustomClaims()
     {
-        return [
-            'role'          => $this->role,
-            'department_id' => $this->department_id,
-        ];
+        return [];
     }
 
-    // Roles
-    public function isSuperAdmin(): bool  { return $this->role === 'super_admin'; }
-    public function isAdmin(): bool       { return in_array($this->role, ['super_admin', 'admin']); }
-
-    // Relationships
-    public function notes()
+    /**
+     * Check if the user is an administrator.
+     */
+    public function isAdmin(): bool
     {
-        return $this->hasMany(Note::class, 'owner_id');
-    }
-
-    public function labels()
-    {
-        return $this->hasMany(NoteLabel::class, 'owner_id');
-    }
-
-    public function collaborations()
-    {
-        return $this->hasMany(NoteCollaborator::class, 'subject_id')
-            ->where('subject_type', 'user');
-    }
-
-    public function notifications()
-    {
-        return $this->hasMany(NoteNotification::class);
+        return in_array($this->role, ['super_admin', 'admin']);
     }
 }
+
