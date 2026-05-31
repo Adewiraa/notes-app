@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌿 KeepClean - Front-End Web Application
 
-## Getting Started
+Welcome to the **KeepClean** Front-End repository! This directory contains the modern, responsive, and aesthetically outstanding user interface of the KeepClean Notes Application.
 
-First, run the development server:
+Designed with a warm-neutral Sage green palette and glassmorphism micro-animations, this frontend delivers a premium, distraction-free notes management experience. It is fully integrated with our Laravel 11 JWT-based RESTful API.
 
+---
+
+## ✨ Features & Technology Stack
+
+- **Core Framework**: [Next.js 15+ (App Router)](https://nextjs.org/) for highly optimized, responsive routing and lightning-fast rendering.
+- **Type Safety**: [TypeScript](https://www.typescriptlang.org/) for robust, type-checked frontend code and API models.
+- **Styling & Aesthetics**: Premium CSS with custom KeepClean design tokens (Sage Green, Alabaster, Soft Warm Clay) for smooth animations, glassmorphic card overlays, and responsive mobile-first layouts.
+- **State Management**: React Context (`NotesContext`) with automatic session synchronizations and state persistence using `localStorage`.
+- **Component Documentation**: [Storybook](https://storybook.js.org/) for building, organizing, and testing UI components isolated from the backend API.
+- **Unit Testing**: [Vitest](https://vitest.dev/) for robust, fast assertions and UI unit tests.
+
+---
+
+## 🛠️ Getting Started
+
+Follow these instructions to run the KeepClean Frontend locally in development mode.
+
+### 📋 Prerequisites
+
+Ensure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/) (v18.0.0 or higher)
+- [pnpm](https://pnpm.io/) (preferred package manager)
+
+### 🚀 Running the Development Server
+
+1. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
+
+2. **Run the local dev server**:
+   ```bash
+   pnpm dev
+   ```
+
+3. **Access the application**:
+   Open [http://localhost:3000](http://localhost:3000) on your browser.
+
+---
+
+## 🎨 Storybook Integration
+
+All custom UI elements are documented, styled, and developed inside Storybook.
+
+To run the Storybook documentation server:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm storybook
+```
+This launches the Storybook dashboard locally at [http://localhost:6006](http://localhost:6006).
+
+---
+
+## 📂 Directory Structure
+
+```text
+Front-End/
+├── .storybook/         # Storybook configuration & layouts
+├── public/             # Static public assets (logos, svg icons)
+├── src/
+│   ├── app/            # Next.js App Router (pages & global layouts)
+│   ├── components/     # Reusable, atomic UI components (NoteCard, NoteComposer, Sidebar, etc.)
+│   ├── context/        # NotesContext (global state, auth handling, client API sync)
+│   ├── lib/            # api.ts (Fetch wrappers, header injections, and REST mappings)
+│   └── stories/        # Storybook story definitions & documentation assets
+└── tsconfig.json       # TypeScript compiler settings
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧪 Running Client-Side Tests
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To run the Vitest unit tests:
+```bash
+pnpm test
+```
