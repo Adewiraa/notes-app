@@ -1,0 +1,1076 @@
+{
+	"info": {
+		"_postman_id": "8b51d8b3-e29f-4318-87cc-9e6be2be7bf8",
+		"name": "Notes App (DIPA Notes) API v1",
+		"description": "Postman Collection for testing Notes App (DIPA Notes) Backend API through Kong API Gateway.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New User\",\n    \"email\": \"newuser@notesapp.com\",\n    \"password\": \"password\",\n    \"password_confirmation\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.access_token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.access_token);",
+									"    console.log(\"Token automatically set to collection variables!\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@notesapp.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notes",
+			"item": [
+				{
+					"name": "Dashboard Summary",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes-summary",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes-summary"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Note (Text)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.uuid) {",
+									"    pm.collectionVariables.set(\"note_uuid\", jsonData.data.uuid);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Catatan Rapat Mingguan\",\n    \"content\": \"Membahas rencana integrasi API dengan Kong Gateway dan persiapan testing menggunakan Postman.\",\n    \"note_type\": \"text\",\n    \"color_key\": \"teal\",\n    \"visibility\": \"private\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Note (Checklist)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Todo List Hari Ini\",\n    \"note_type\": \"checklist\",\n    \"color_key\": \"yellow\",\n    \"visibility\": \"private\",\n    \"checklist_items\": [\n        {\n            \"content\": \"Menyiapkan docker-compose Kong\",\n            \"is_checked\": true\n        },\n        {\n            \"content\": \"Melakukan database migration Notes\",\n            \"is_checked\": true\n        },\n        {\n            \"content\": \"Membuat postman collection\",\n            \"is_checked\": false\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Notes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes?search=&per_page=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "per_page",
+									"value": "20"
+								},
+								{
+									"key": "archived",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "trashed",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Catatan Rapat Mingguan (Updated)\",\n    \"content\": \"Membahas integrasi API dengan Kong Gateway, Rate Limiting, dan test collection Postman yang sudah rampung.\",\n    \"color_key\": \"blue\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pin / Unpin Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}/pin",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}",
+								"pin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Archive / Unarchive Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}/archive",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}",
+								"archive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trash Note (Soft Delete)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restore Note from Trash",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}/restore",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}",
+								"restore"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Force Delete Note (Permanent)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}/force",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}",
+								"force"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Checklist Items",
+			"item": [
+				{
+					"name": "Add Checklist Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.id) {",
+									"    pm.collectionVariables.set(\"checklist_item_id\", jsonData.data.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Implementasi Testing Postman\",\n    \"is_checked\": false,\n    \"sort_order\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}/checklist-items",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}",
+								"checklist-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Checklist Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_checked\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/checklist-items/{{checklist_item_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"checklist-items",
+								"{{checklist_item_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Checklist Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/checklist-items/{{checklist_item_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"checklist-items",
+								"{{checklist_item_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Labels",
+			"item": [
+				{
+					"name": "Create Label",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.id) {",
+									"    pm.collectionVariables.set(\"label_id\", jsonData.data.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Pekerjaan\",\n    \"color_key\": \"blue\",\n    \"scope\": \"personal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/labels",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Labels",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/labels",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Label",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Pekerjaan Kantor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/labels/{{label_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"labels",
+								"{{label_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Label",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/labels/{{label_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"labels",
+								"{{label_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reminders",
+			"item": [
+				{
+					"name": "Add Reminder to Note",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.id) {",
+									"    pm.collectionVariables.set(\"reminder_id\", jsonData.data.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"due_at\": \"2026-06-01 10:00:00\",\n    \"timezone\": \"Asia/Jakarta\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}/reminders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}",
+								"reminders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Reminder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"due_at\": \"2026-06-01 15:00:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/reminders/{{reminder_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reminders",
+								"{{reminder_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Complete Reminder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reminders/{{reminder_id}}/complete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reminders",
+								"{{reminder_id}}",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Collaborators",
+			"item": [
+				{
+					"name": "Share Note",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.id) {",
+									"    pm.collectionVariables.set(\"collaborator_id\", jsonData.data.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subject_type\": \"user\",\n    \"subject_id\": 2,\n    \"permission\": \"editor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notes/{{note_uuid}}/collaborators",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								"{{note_uuid}}",
+								"collaborators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke Collaborator Access",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collaborators/{{collaborator_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"{{collaborator_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "note_uuid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "checklist_item_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "label_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "reminder_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "collaborator_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

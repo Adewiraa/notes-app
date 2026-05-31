@@ -1,0 +1,17 @@
+# Laravel specific
+Back-End/vendor/
+Back-End/node_modules/
+Back-End/.env
+Back-End/.env.backup
+Back-End/storage/*.key
+Back-End/storage/logs/
+Back-End/storage/framework/
+Back-End/bootstrap/cache/
+Back-End/.phpunit.result.cache
+
+# Development & OS specific
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log

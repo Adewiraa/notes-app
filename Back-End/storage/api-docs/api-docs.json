@@ -1,0 +1,498 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Notes App API",
+        "description": "Notes App Backend API - Laravel",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/notes/{uuid}/attachments": {
+            "post": {
+                "tags": [
+                    "Attachments"
+                ],
+                "operationId": "3c93e8eebe3abb529dde4eb23fd64396",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Attachment berhasil diunggah"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/attachments/{id}/download": {
+            "get": {
+                "tags": [
+                    "Attachments"
+                ],
+                "operationId": "9881f76cd1231d13da961a33277e715a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Download file"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "a7997e7c1e3bfed64d4e56de82415931",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login berhasil"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "b9e746d77661fb8df55d0ac63e1ece77",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "minLength": 8
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registrasi berhasil"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "c42c3cd7fd7fe0dbd5bcc42962059e90",
+                "responses": {
+                    "200": {
+                        "description": "Token diperbarui"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "f6b8957b4c0b25636613a9f0512a8ba9",
+                "responses": {
+                    "200": {
+                        "description": "Logout berhasil"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "37d33f0281f67d31d05b4c45eea0143b",
+                "responses": {
+                    "200": {
+                        "description": "Data user terautentikasi"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/notes/{uuid}/collaborators": {
+            "post": {
+                "tags": [
+                    "Collaborators"
+                ],
+                "operationId": "e8e5aebce0d105cadd4463f62103559a",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "subject_type",
+                                    "subject_id",
+                                    "permission"
+                                ],
+                                "properties": {
+                                    "subject_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "user",
+                                            "role",
+                                            "department"
+                                        ]
+                                    },
+                                    "subject_id": {
+                                        "type": "integer"
+                                    },
+                                    "permission": {
+                                        "type": "string",
+                                        "enum": [
+                                            "viewer",
+                                            "editor",
+                                            "commenter"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Collaborator berhasil ditambahkan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/collaborators/{id}": {
+            "delete": {
+                "tags": [
+                    "Collaborators"
+                ],
+                "operationId": "9e2effe9bc6858203330361662353881",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Akses kolaborator dicabut"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/notes": {
+            "get": {
+                "tags": [
+                    "Notes"
+                ],
+                "operationId": "0eb12475438792d91075dbcb643f0184",
+                "parameters": [
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[is_pinned]",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[color_key]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List notes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Notes"
+                ],
+                "operationId": "b156674541dd281cfa5e1eef5b81e762",
+                "responses": {
+                    "201": {
+                        "description": "Note dibuat"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/notes/{uuid}": {
+            "get": {
+                "tags": [
+                    "Notes"
+                ],
+                "operationId": "0fa195ae532b162621028677dcc7fca3",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail note"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Notes"
+                ],
+                "operationId": "94318bf695cdf9310d31570ace705340",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Note dihapus ke trash"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Notes"
+                ],
+                "operationId": "aa114d10c732e8235e0ee155f2a3d4d2",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Note diupdate"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/notes-summary": {
+            "get": {
+                "tags": [
+                    "Notes"
+                ],
+                "operationId": "7b0e37e318ad01205871e37cc7f6f9bb",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard summary"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Attachments",
+            "description": "Attachments"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Collaborators",
+            "description": "Collaborators"
+        },
+        {
+            "name": "Notes",
+            "description": "Notes"
+        }
+    ]
+}
