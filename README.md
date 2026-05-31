@@ -1,4 +1,4 @@
-# Notes App (DIPA Notes) - Monorepo
+# Notes Apps
 
 Notes App adalah aplikasi manajemen catatan internal yang aman, terstruktur, dan kolaboratif. Aplikasi ini terinspirasi dari fungsionalitas utama Google Keep (catatan, checklist, label, warna, pin, arsip, reminder, pencarian, lampiran, dan kolaborasi) namun disesuaikan untuk kebutuhan kepatuhan data organisasi dengan menyertakan fitur otentikasi JWT yang aman, kontrol akses RBAC (Role-Based Access Control), dan Audit Trail (pencatatan riwayat aktivitas).
 
