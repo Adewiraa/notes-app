@@ -9,6 +9,16 @@ Back-End/storage/framework/
 Back-End/bootstrap/cache/
 Back-End/.phpunit.result.cache
 
+# Next.js / Front-End specific
+Front-End/node_modules/
+Front-End/.next/
+Front-End/out/
+Front-End/build/
+Front-End/coverage/
+Front-End/.env*
+Front-End/temp-next/
+Front-End/*.log
+
 # Development & OS specific
 .idea/
 .vscode/
